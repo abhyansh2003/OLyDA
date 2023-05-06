@@ -12,6 +12,7 @@ region_df = pd.read_csv('noc_regions.csv')
 df = preprocessor.preprocess(df,region_df)
 
 st.sidebar.title("Olympics Analysis")
+st.sidebar.image('https://e7.pngegg.com/pngimages/1020/402/png-clipart-2024-summer-olympics-brand-circle-area-olympic-rings-olympics-logo-text-sport.png')
 
 user_menu = st.sidebar.radio(   
     'Select an option',
@@ -158,4 +159,20 @@ if user_menu == 'Athlete-wise analysis':
     fig = ff.create_distplot(x,name,show_hist=False,show_rug=False)
     fig.update_layout(autosize=False,width=1000,height=600)
     st.title("Distribution of age wrt Sports")
+    st.plotly_chart(fig)
+    sport_list = df['Sport'].unique().tolist()
+    sport_list.sort()
+    sport_list.insert(0,'Overall')
+
+    st.title("Height vs Weight")
+    selected_sport = st.selectbox('Select a Sport',sport_list)
+    temp_df = helper.weight_v_height(df,selected_sport)
+    fig,ax = plt.subplots()
+    ax = sns.scatterplot(x=temp_df['Weight'],y=temp_df['Height'],hue=temp_df['Medal'],style=temp_df['Sex'],s=60)    
+    st.pyplot(fig)
+
+    st.title("Men Vs Women Participation Over the Years")
+    final = helper.men_vs_women(df)
+    fig = px.line(final, x="Year", y=["Male", "Female"])
+    fig.update_layout(autosize=False, width=1000, height=600)
     st.plotly_chart(fig)
