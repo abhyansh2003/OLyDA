@@ -1,8 +1,9 @@
 streamlit
 pandas
 numpy
-plotly
+plotly.express
+plotly.figure_factory
 seaborn
-matplotlib
+matplotlib.pyplot
 helper
 preprocessor
