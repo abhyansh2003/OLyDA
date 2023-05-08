@@ -86,6 +86,7 @@ def most_succcessful_countrywise(df,country):
   temp_df = temp_df[temp_df['region'] == country]
 
   x = temp_df['Name'].value_counts().reset_index().head(10).merge(df,left_on='index',right_on='Name',how='left')[['index','Name_x','Sport']].drop_duplicates('index')
+  
   x.rename(columns={'index':'Name','Name_x':'Medals'},inplace=True)
   return x
 
